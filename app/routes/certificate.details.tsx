@@ -1,4 +1,3 @@
-// CardPage.tsx
 import React from "react";
 import CertificateDetails from "~/components/CertificateDetails";
 import PurchaseTokens from "~/components/PurchaseTokens";

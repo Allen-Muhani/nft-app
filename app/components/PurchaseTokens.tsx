@@ -1,4 +1,3 @@
-// PurchaseTokens.tsx
 import React, { useState } from "react";
 
 type PurchaseTokensProps = {
