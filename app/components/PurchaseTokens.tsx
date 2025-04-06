@@ -39,8 +39,8 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
                     </div>
 
                     <div>
-                        <label className="block text-lg font-semibold text-gray-800">Price Per Token</label>
-                        <div className="text-lg font-semibold text-gray-700">${pricePerToken.toFixed(2)}</div>
+                        <label className="block text-lg font-semibold text-gray-800">Price Per kWh</label>
+                        <div className="text-lg font-semibold text-gray-700">${pricePerToken.toFixed(2) } USDC</div>
                     </div>
 
                     <div>
