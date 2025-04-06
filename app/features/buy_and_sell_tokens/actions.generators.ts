@@ -29,7 +29,7 @@ export function generateActionErrorMinting(error: String): ActionErrorMinting {
   };
 }
 
-export function generateActionResetMinting(): ResetMinting {
+export function generateActionResetMinting(error: String): ResetMinting {
   return {
     type: Actions.RESET,
   };
