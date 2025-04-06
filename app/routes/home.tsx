@@ -43,14 +43,12 @@ export default function Home() {
           {cardData.map((card, index) => (
             <InfoCard
               key={index}
-              name={card.name}  
+              name={card.name}
               id={card.id}
               dateCreated={card.dateCreated}
               imageUrl={card.imageUrl}
               fractionalized={card.fractionalized}
-              remainingKilowatts={card.remainingKilowatts} onViewDetails={function (): void {
-                throw new Error("Function not implemented.");
-              }} />
+              remainingKilowatts={card.remainingKilowatts} />
           ))}
         </div>
       </div>
