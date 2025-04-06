@@ -10,7 +10,7 @@ const CertificateDetailsPage: React.FC = () => {
         id: "002",
         dateCreated: "2025-04-05",
         fractionalized: false,
-        remainingKilowatts: 120, // kWh
+        availableKilowatts: 120, // kWh
         imageUrl: "https://via.placeholder.com/150", // Image URL (you can replace this with the actual image URL)
         pricePerToken: 5, // Price per token in USD
     };
@@ -34,7 +34,7 @@ const CertificateDetailsPage: React.FC = () => {
                     id={card.id}
                     dateCreated={card.dateCreated}
                     fractionalized={card.fractionalized}
-                    remainingKilowatts={card.remainingKilowatts}
+                    availableKilowatts={card.availableKilowatts}
                     imageUrl={card.imageUrl}
                     onFractionalize={handleFractionalize}
                 />

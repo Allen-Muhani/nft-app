@@ -6,12 +6,15 @@ type PurchaseTokensProps = {
 };
 
 const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurchase }) => {
+    const [tokenAmountStr, setTokenAmountStr] = useState("");
     const [tokenAmount, setTokenAmount] = useState(0);
     const [usdcAmount, setUsdcAmount] = useState(0);
 
     const handleTokenAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const amount = parseFloat(e.target.value);
+        const v = e.target.value === "" ? "0" : e.target.value;
+        const amount = parseFloat(v);
         setTokenAmount(amount);
+        setTokenAmountStr(v);
         setUsdcAmount(amount * pricePerToken);
     };
 
@@ -28,7 +31,7 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
                         <input
                             type="number"
                             id="tokenAmount"
-                            value={tokenAmount}
+                            value={tokenAmountStr}
                             onChange={handleTokenAmountChange}
                             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                             min="0"

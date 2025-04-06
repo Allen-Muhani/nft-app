@@ -6,7 +6,7 @@ type CertificateDetailsProps = {
     id: string;
     dateCreated: string;
     fractionalized: boolean;
-    remainingKilowatts: number;
+    availableKilowatts: number;
     imageUrl: string;
     onFractionalize: () => void;
 };
@@ -16,7 +16,7 @@ const CertificateDetails: React.FC<CertificateDetailsProps> = ({
     id,
     dateCreated,
     fractionalized,
-    remainingKilowatts,
+    availableKilowatts,
     imageUrl,
     onFractionalize,
 }) => {
@@ -41,7 +41,8 @@ const CertificateDetails: React.FC<CertificateDetailsProps> = ({
                                 {fractionalized ? "Yes" : "No"}
                             </span>
                         </p>
-                        <p className="text-gray-600">Remaining Kilowatts: {remainingKilowatts} kWh</p>
+                        <p className="text-gray-600">Available Kilowatts: {availableKilowatts} kWh</p>
+                        <p className="text-gray-600">My Kilowatts: {availableKilowatts} kWh</p>
                     </div>
                 </div>
 
