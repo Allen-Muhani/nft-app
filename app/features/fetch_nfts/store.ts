@@ -1,43 +1,39 @@
 import { Actions, type ActionTypes } from "./actions";
+import type { NFTCert } from "./types";
 
 /**
  * Onboarding state object.
  */
-interface MintingState {
-  status: "started_minting" | "finished_minitng" | "error" | "";
+interface NFTCertColletionState {
+  status: "error" | "";
   error: String;
-  id: Number;
+  certs: Map<Number, NFTCert>;
 }
 
 /**
  * Initial state.
  */
-const initialState: MintingState = {
+const initialState: NFTCertColletionState = {
   status: "",
   error: "",
-  id: -1,
+  certs: new Map<Number, NFTCert>(),
 };
 
-export const mintingReducer = (
-  state: MintingState | undefined = initialState,
+export const nft_cert_colletion = (
+  state: NFTCertColletionState | undefined = initialState,
   action: ActionTypes
-): MintingState => {
+): NFTCertColletionState => {
   switch (action.type) {
     case Actions.RESET:
       return {
         ...initialState,
       };
-    case Actions.START:
+    case Actions.SET_NFT_CERT:
+      let x = state.certs;
+      x.set(action.cert.id, action.cert);
       return {
         ...state,
-        status: "started_minting",
-        id: -1,
-      };
-    case Actions.SUCCESS:
-      return {
-        ...state,
-        status: "finished_minitng",
-        id: action.id,
+        certs: x,
       };
     case Actions.ERROR:
       return {

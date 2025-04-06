@@ -31,19 +31,19 @@ export const fractionzingReducer = (
       };
     case Actions.START:
       return {
-        ...initialState,
+        ...state,
         status: "started_fractionizing",
         id: action.certificateId,
       };
     case Actions.SUCCESS:
       return {
-        ...initialState,
+        ...state,
         status: "finished_fractionizing",
         address: action.fractionAddress,
       };
     case Actions.ERROR:
       return {
-        ...initialState,
+        ...state,
         status: "error",
         error: action.error,
       };

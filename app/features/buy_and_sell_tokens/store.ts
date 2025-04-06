@@ -35,29 +35,29 @@ export const buy_sell_reducer = (
       };
     case Actions.BUY:
       return {
-        ...initialState,
+        ...state,
         status: "started_buy",
         amount: action.amount,
       };
     case Actions.SELL:
       return {
-        ...initialState,
+        ...state,
         status: "started_sell",
         amount: action.amount,
       };
     case Actions.SUCCESS_BUY:
       return {
-        ...initialState,
+        ...state,
         status: "finished_buy",
       };
     case Actions.SUCCESS_SELL:
       return {
-        ...initialState,
+        ...state,
         status: "finished_sell",
       };
     case Actions.ERROR:
       return {
-        ...initialState,
+        ...state,
         status: "error",
         error: action.error,
       };
