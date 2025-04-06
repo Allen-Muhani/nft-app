@@ -2,7 +2,6 @@ import { configureStore, type ThunkAction } from "@reduxjs/toolkit";
 import { rootReducer } from "./root.reducer";
 import createSagaMiddleware, { type Action } from "redux-saga";
 import { root_saga } from "./root.saga";
-// ...
 
 const sagaMiddleware = createSagaMiddleware();
 
