@@ -29,11 +29,12 @@ export async function get_token_balance(
 ) {
   const contract = get_fractional_contract(token_address);
   const result = await contract?.methods.balanceOf(owner_address).call();
-  return Number(result);
+  return Number(result) / 1000;
 }
 
 export async function get_token_price(token_address: String) {
   const contract = get_fractional_contract(token_address);
   const result = await contract?.methods.priceInUsdc().call();
-  return Number(result);
+
+  return (Number(result) * 1000) / 10 ** 6;
 }

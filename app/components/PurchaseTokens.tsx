@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 type PurchaseTokensProps = {
     pricePerToken: number;
+    fractionalized: boolean;
     onPurchase: (tokenAmount: number, usdcAmount: number) => void;
 };
 
@@ -13,9 +14,11 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
     const handleTokenAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const v = e.target.value === "" ? "0" : e.target.value;
         const amount = parseFloat(v);
-        setTokenAmount(amount);
-        setTokenAmountStr(v);
-        setUsdcAmount(amount * pricePerToken);
+        if (amount >= 0 && amount < 1000) {
+            setTokenAmount(amount);
+            setTokenAmountStr(v);
+            setUsdcAmount(amount * pricePerToken);
+        }
     };
 
     return (
@@ -40,7 +43,7 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
 
                     <div>
                         <label className="block text-lg font-semibold text-gray-800">Price Per kWh</label>
-                        <div className="text-lg font-semibold text-gray-700">${pricePerToken.toFixed(2) } USDC</div>
+                        <div className="text-lg font-semibold text-gray-700">${pricePerToken.toFixed(2)} USDC</div>
                     </div>
 
                     <div>

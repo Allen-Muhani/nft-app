@@ -6,6 +6,7 @@ import type { NFTCert } from "~/features/fetch_nfts/types";
 import { generateActionResetFractionalizing, generateActionStartFractionizing } from "~/features/fractionize_cetificate/actions.generators";
 import type { RootState } from "~/redux/store";
 import type { Route } from "../+types/root";
+import { EMPTY_ADDRESS } from "~/features/web3/web3";
 
 
 const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
@@ -55,7 +56,11 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
 
             {/* Left Section - Purchase Tokens */}
             <div className="flex flex-col h-full">
-                <PurchaseTokens pricePerToken={cardInfo?.price.valueOf() ?? 0} onPurchase={handlePurchase} />
+                <PurchaseTokens
+                    pricePerToken={cardInfo?.price.valueOf() ?? 0}
+                    onPurchase={handlePurchase}
+                    fractionalized={!cardInfo?.fractionAddress.endsWith(EMPTY_ADDRESS)}
+                />
             </div>
         </div>
     );
