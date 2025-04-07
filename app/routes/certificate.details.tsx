@@ -18,7 +18,7 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
         }
 
         if (props.status == "finished_fractionizing") {
-            alert(`Certificate with id ${props.id} has been fractionziezd!!`);
+            alert(`Certificate with id ${props.id} has been fractionized!!`);
             props.dispatchResetFractionalizer();
         }
     }, [props.status, props.certs, props.error])

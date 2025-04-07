@@ -63,10 +63,6 @@ export async function get_token_info(certId: Number) {
 
     return x;
   }
-  // const my_balance = await get_token_balance(fractional_address, ownerAddress);
-  // const available = await get_token_balance(fractional_address, CERT_ADDRESS);
-  // const price = await get_token_price(fractional_address);
-  // const code = await fetch_cert(certId);
 
   const [my_balance, available, price] = await Promise.all([
     get_token_balance(fractional_address, accs[0]),
