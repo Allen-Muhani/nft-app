@@ -256,12 +256,6 @@ export const CERTIFICATE_ABI = [
       {
         indexed: false,
         internalType: "string",
-        name: "certificateDetails",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "string",
         name: "uri",
         type: "string",
       },
@@ -367,6 +361,25 @@ export const CERTIFICATE_ABI = [
     inputs: [
       {
         internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "fractionErc20Token",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "_certificateId",
         type: "uint256",
       },
@@ -396,25 +409,6 @@ export const CERTIFICATE_ABI = [
         internalType: "address",
         name: "",
         type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_certificateId",
-        type: "uint256",
-      },
-    ],
-    name: "getCertificateDetails",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
       },
     ],
     stateMutability: "view",
@@ -478,6 +472,19 @@ export const CERTIFICATE_ABI = [
   },
   {
     inputs: [],
+    name: "nextCertificateId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "owner",
     outputs: [
       {
@@ -521,11 +528,6 @@ export const CERTIFICATE_ABI = [
         internalType: "address",
         name: "owner",
         type: "address",
-      },
-      {
-        internalType: "string",
-        name: "otherDetails",
-        type: "string",
       },
       {
         internalType: "string",

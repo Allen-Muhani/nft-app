@@ -1,18 +1,16 @@
 import {
   Actions,
   type ActionErrorFetching,
+  type ActionFetchNFT,
   type ActionSetNFT,
   type ActionStartFetching,
   type ResetNFtMap,
 } from "./actions";
 import type { NFTCert } from "./types";
 
-export function generateActionStartMinting(
-  certificateCode: String
-): ActionStartFetching {
+export function generateActionStartFetchingNFT(): ActionStartFetching {
   return {
     type: Actions.START,
-    certificateCode,
   };
 }
 
@@ -35,5 +33,12 @@ export function generateActionErrorFetchingNFT(
 export function generateActionResetNFT(): ResetNFtMap {
   return {
     type: Actions.RESET,
+  };
+}
+
+export function generateActionFetchNFT(id: Number): ActionFetchNFT {
+  return {
+    type: Actions.FETCH_NFT,
+    id,
   };
 }

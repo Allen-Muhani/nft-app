@@ -2,6 +2,7 @@ import type { NFTCert } from "./types";
 
 export enum Actions {
   START = "FETCH_NFT/START",
+  FETCH_NFT = "FETCH_NFT/FETCH_NFT",
   SET_NFT_CERT = "FETCH_NFT/SET_NFT",
   ERROR = "FETCH_NFT/ERROR",
   RESET = "FETCH_NFT/RESET",
@@ -9,7 +10,11 @@ export enum Actions {
 
 export interface ActionStartFetching {
   type: Actions.START;
-  certificateCode: String;
+}
+
+export interface ActionFetchNFT {
+  type: Actions.FETCH_NFT;
+  id: Number;
 }
 
 export interface ActionSetNFT {
@@ -33,4 +38,5 @@ export type ActionTypes =
   | ActionStartFetching //should be at the beginning of all reducers.
   | ActionSetNFT
   | ActionErrorFetching
+  | ActionFetchNFT
   | ResetNFtMap;

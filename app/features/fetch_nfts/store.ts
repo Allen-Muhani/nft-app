@@ -29,8 +29,9 @@ export const nft_cert_colletion = (
         ...initialState,
       };
     case Actions.SET_NFT_CERT:
-      let x = state.certs;
+      let x = new Map(state.certs);
       x.set(action.cert.id, action.cert);
+      console.log("====>", action, x);
       return {
         ...state,
         certs: x,

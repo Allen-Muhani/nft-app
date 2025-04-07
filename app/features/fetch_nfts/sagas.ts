@@ -1,8 +1,20 @@
-import { spawn, takeLatest } from "redux-saga/effects";
+import { call, put, spawn, takeLatest } from "redux-saga/effects";
 import { Actions, type ActionStartFetching } from "./actions";
+import { get_next_id, get_token_info } from "../web3/certificate.utils";
+import type { NFTCert } from "./types";
+import { generateActionSetNFT } from "./actions.generators";
 
 export function* fetch_nft_cert_colletion(action: ActionStartFetching) {
-  console.log("===============================>", action);
+  // try {
+
+  // } catch (error) {
+
+  // }
+  const nextCertID: Number = yield call(get_next_id);
+  for (let index = nextCertID.valueOf() - 1; index >= 0; index--) {
+    const cert: NFTCert = yield call(get_token_info, index);
+    yield put(generateActionSetNFT(cert));
+  }
 }
 
 /**
