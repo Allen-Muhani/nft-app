@@ -28,9 +28,6 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
         setCarInfo(props.certs.get(Number(props.params.certificateId)));
     }, [props.certs])
 
-    const handlePurchase = (tokenAmount: number, usdcAmount: number) => {
-        alert(`Purchased ${tokenAmount} kWh tokens for ${usdcAmount} USDC`);
-    };
 
     const handleFractionalize = () => {
         props.dispatchFractionalize(Number(props.params.certificateId));
@@ -58,7 +55,7 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
             <div className="flex flex-col h-full">
                 <PurchaseTokens
                     pricePerToken={cardInfo?.price.valueOf() ?? 0}
-                    onPurchase={handlePurchase}
+                    fractiona_address={cardInfo?.fractionAddress.toString() ?? ""}
                     fractionalized={!cardInfo?.fractionAddress.endsWith(EMPTY_ADDRESS)}
                 />
             </div>

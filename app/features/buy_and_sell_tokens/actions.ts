@@ -14,16 +14,16 @@ export enum Actions {
 
 export interface ActionStartBuy {
   type: Actions.BUY;
-  tokenId: Number;
   fractionAddress: String;
   amount: Number;
+  usdcAmount: Number;
 }
 
 export interface ActionStartSell {
   type: Actions.SELL;
-  tokenId: Number;
   fractionAddress: String;
   amount: Number;
+  usdcAmount: Number;
 }
 
 export interface ActionSuccessBuy {
