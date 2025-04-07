@@ -29,7 +29,6 @@ export async function get_token_balance(
 ) {
   const contract = get_fractional_contract(token_address);
   const result = await contract?.methods.balanceOf(owner_address).call();
-  console.log("result ===>", result);
   return Number(result);
 }
 

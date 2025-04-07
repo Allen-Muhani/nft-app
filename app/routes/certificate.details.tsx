@@ -10,7 +10,7 @@ import type { Route } from "../+types/root";
 
 const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
     // Card details
-    const [cardInfor, setCarInfor] = useState<NFTCert>();
+    const [cardInfo, setCarInfo] = useState<NFTCert>();
 
     useEffect(() => {
         if (props.status == "error") {
@@ -18,13 +18,13 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
         }
 
         if (props.status == "finished_fractionizing") {
-            alert(`Certificate with id ${props.id} has been fractionzied!!`);
+            alert(`Certificate with id ${props.id} has been fractionziezd!!`);
             props.dispatchResetFractionalizer();
         }
     }, [props.status, props.certs, props.error])
 
     useEffect(() => {
-        setCarInfor(props.certs.get(Number(props.params.certificateId)));
+        setCarInfo(props.certs.get(Number(props.params.certificateId)));
     }, [props.certs])
 
     const handlePurchase = (tokenAmount: number, usdcAmount: number) => {
@@ -42,12 +42,12 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
             {/* Right Section - Certificate Details */}
             <div className="flex flex-col h-full">
                 <CertificateDetails
-                    name={cardInfor?.code.toString() ?? ""}
-                    id={cardInfor?.id ?? Number(0)}
-                    dateCreated={cardInfor?.dateCreated.toString() ?? ""}
-                    fraction_address={cardInfor?.fractionAddress.toString() ?? ''}
-                    availableKilowatts={cardInfor?.availablekWts.valueOf() ?? 0}
-                    my_balance={cardInfor?.myBalance.valueOf() ?? 0}
+                    name={cardInfo?.code.toString() ?? ""}
+                    id={cardInfo?.id ?? Number(0)}
+                    dateCreated={cardInfo?.dateCreated.toString() ?? ""}
+                    fraction_address={cardInfo?.fractionAddress.toString() ?? ''}
+                    availableKilowatts={cardInfo?.availablekWts.valueOf() ?? 0}
+                    my_balance={cardInfo?.myBalance.valueOf() ?? 0}
                     imageUrl={"https://via.placeholder.com/150"}
                     onFractionalize={handleFractionalize}
                 />
@@ -55,7 +55,7 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
 
             {/* Left Section - Purchase Tokens */}
             <div className="flex flex-col h-full">
-                <PurchaseTokens pricePerToken={cardInfor?.price.valueOf() ?? 0} onPurchase={handlePurchase} />
+                <PurchaseTokens pricePerToken={cardInfo?.price.valueOf() ?? 0} onPurchase={handlePurchase} />
             </div>
         </div>
     );
