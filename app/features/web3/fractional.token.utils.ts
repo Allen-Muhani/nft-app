@@ -9,6 +9,15 @@ export function get_fractional_contract(address: String) {
   }
 }
 
+export async function approve(token_address: String, amount: Number) {
+  const accs = (await web3Js?.eth.getAccounts()) ?? [];
+  const contract = get_fractional_contract(token_address);
+  const tx = contract?.methods
+    .approve(amount.valueOf() + 1000)
+    .send({ from: accs[0] });
+  return tx;
+}
+
 export async function buy(token_address: String, amount: Number) {
   const accs = (await web3Js?.eth.getAccounts()) ?? [];
   const contract = get_fractional_contract(token_address);
@@ -29,11 +38,12 @@ export async function get_token_balance(
 ) {
   const contract = get_fractional_contract(token_address);
   const result = await contract?.methods.balanceOf(owner_address).call();
-  return Number(result);
+  return Number(result) / 1000;
 }
 
 export async function get_token_price(token_address: String) {
   const contract = get_fractional_contract(token_address);
   const result = await contract?.methods.priceInUsdc().call();
-  return Number(result);
+
+  return (Number(result) * 1000) / 10 ** 6;
 }

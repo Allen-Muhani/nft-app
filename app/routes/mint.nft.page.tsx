@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { RootState } from "~/redux/store";
-import { generateActionStartMinting } from '../features/buy_and_sell_tokens/actions.generators';
 import { connect, type ConnectedProps } from "react-redux";
-import { generateActionResetMinting } from "~/features/minting_certificate/actions.generators";
+import { generateActionResetMinting, generateActionStartMinting } from "~/features/minting_certificate/actions.generators";
 
 const MintNFTPage: React.FC<Props> = (props: Props) => {
     const [certificateName, setCertificateName] = useState("");
@@ -15,6 +14,8 @@ const MintNFTPage: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         if (props.status == "error") {
             alert(props.error);
+            props.dispatchResetMinter();
+            setCertificateName("");
         }
 
         if (props.status == "finished_minitng") {

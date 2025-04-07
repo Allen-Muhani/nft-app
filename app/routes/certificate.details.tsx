@@ -6,6 +6,7 @@ import type { NFTCert } from "~/features/fetch_nfts/types";
 import { generateActionResetFractionalizing, generateActionStartFractionizing } from "~/features/fractionize_cetificate/actions.generators";
 import type { RootState } from "~/redux/store";
 import type { Route } from "../+types/root";
+import { EMPTY_ADDRESS } from "~/features/web3/web3";
 
 
 const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
@@ -15,6 +16,7 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         if (props.status == "error") {
             alert(props.error);
+            props.dispatchResetFractionalizer();
         }
 
         if (props.status == "finished_fractionizing") {
@@ -27,9 +29,6 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
         setCarInfo(props.certs.get(Number(props.params.certificateId)));
     }, [props.certs])
 
-    const handlePurchase = (tokenAmount: number, usdcAmount: number) => {
-        alert(`Purchased ${tokenAmount} kWh tokens for ${usdcAmount} USDC`);
-    };
 
     const handleFractionalize = () => {
         props.dispatchFractionalize(Number(props.params.certificateId));
@@ -55,7 +54,11 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
 
             {/* Left Section - Purchase Tokens */}
             <div className="flex flex-col h-full">
-                <PurchaseTokens pricePerToken={cardInfo?.price.valueOf() ?? 0} onPurchase={handlePurchase} />
+                <PurchaseTokens
+                    pricePerToken={cardInfo?.price.valueOf() ?? 0}
+                    fractiona_address={cardInfo?.fractionAddress.toString() ?? ""}
+                    fractionalized={!cardInfo?.fractionAddress.endsWith(EMPTY_ADDRESS)}
+                />
             </div>
         </div>
     );

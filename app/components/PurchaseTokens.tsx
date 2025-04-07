@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { connect, type ConnectedProps } from "react-redux";
+import { generateActionStartBuy, generateActionStartSell } from "~/features/buy_and_sell_tokens/actions.generators";
+import type { RootState } from "~/redux/store";
+import { generateActionResetBuySell } from '../features/buy_and_sell_tokens/actions.generators';
 
 type PurchaseTokensProps = {
     pricePerToken: number;
-    onPurchase: (tokenAmount: number, usdcAmount: number) => void;
+    fractiona_address: String;
+    fractionalized: boolean
 };
 
-const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurchase }) => {
+const PurchaseTokens: React.FC<Props> = (props: Props) => {
+    const [buy, setBuy] = useState(true)
     const [tokenAmountStr, setTokenAmountStr] = useState("");
     const [tokenAmount, setTokenAmount] = useState(0);
     const [usdcAmount, setUsdcAmount] = useState(0);
@@ -13,16 +19,57 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
     const handleTokenAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const v = e.target.value === "" ? "0" : e.target.value;
         const amount = parseFloat(v);
-        setTokenAmount(amount);
-        setTokenAmountStr(v);
-        setUsdcAmount(amount * pricePerToken);
+      
+        if (amount >= 0 && amount < 1000) {
+            setTokenAmount(amount);
+            setTokenAmountStr(v);
+            setUsdcAmount(amount * props.pricePerToken);
+        }
     };
+
+    const handleTransaction = (tokenAmount: number, usdcAmount: number) => {
+        const token_watts = tokenAmount * 1000;
+        const usdc_wei = usdcAmount * 10 ** 6;
+        if (token_watts > 0 && usdc_wei > 0) {
+            if (buy) {
+                props.dispatchBuy(props.fractiona_address, usdc_wei, token_watts);
+            } else {
+                props.dispatchSell(props.fractiona_address, usdc_wei, token_watts);
+            }
+        }
+    };
+
+    useEffect(()=> {
+        if (props.status == "error") {
+            alert(props.error);
+            props.dispatchReset();
+            setTokenAmount(0);
+            setTokenAmountStr("");
+            setUsdcAmount(0);
+        }
+
+        if (props.status == "finished_buy") {
+            alert(`Successfully purchased ${tokenAmount} watts at ${usdcAmount} USDC`);
+            props.dispatchReset();
+        }
+
+        if (props.status == "finished_sell") {
+            alert(`Successfully sold ${tokenAmount} watts at ${usdcAmount} USDC`);
+            props.dispatchReset();
+        }
+    }, [props.error, props.status])
 
     return (
         <div className="space-y-6">
-
             <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold text-gray-800 pb-6">Purchase Tokens</h2>
+                <button
+                    type="button"
+                    onClick={() => setBuy(!buy)}
+                    className="w-full py-2 mt-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 mb-8 "
+                >
+                    {buy ? 'I want to Sell' : 'I want to Buy'}
+                </button>
+                <h2 className="text-3xl font-bold text-gray-800 pb-6">{buy ? 'Purchase Tokens' : 'Sell Tokens'}</h2>
                 <form className="space-y-4">
                     <div>
                         <label className="block text-lg font-semibold text-gray-800" htmlFor="tokenAmount">
@@ -40,7 +87,7 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
 
                     <div>
                         <label className="block text-lg font-semibold text-gray-800">Price Per kWh</label>
-                        <div className="text-lg font-semibold text-gray-700">${pricePerToken.toFixed(2) } USDC</div>
+                        <div className="text-lg font-semibold text-gray-700">${props.pricePerToken.toFixed(2)} USDC</div>
                     </div>
 
                     <div>
@@ -50,10 +97,12 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
 
                     <button
                         type="button"
-                        onClick={() => onPurchase(tokenAmount, usdcAmount)}
-                        className="w-full py-2 mt-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        onClick={() => handleTransaction(tokenAmount, usdcAmount)}
+                        className="w-full py-2 mt-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700  disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={!props.fractionalized}
+                        disabled:opacity-50 disabled:cursor-not-allowed
                     >
-                        Purchase Tokens
+                        {buy ? 'Buy Tokens' : 'Sell Tokens'}
                     </button>
                 </form>
             </div>
@@ -61,4 +110,26 @@ const PurchaseTokens: React.FC<PurchaseTokensProps> = ({ pricePerToken, onPurcha
     );
 };
 
-export default PurchaseTokens;
+const mapStateToProps = (state: RootState) => ({
+    status: state.buy_sell.status,
+    error: state.buy_sell.error,
+    certs: state.nft_cert_colletion.certs
+});
+
+const mapDispatchToProps = {
+    dispatchBuy: generateActionStartBuy,
+    dispatchSell: generateActionStartSell,
+    dispatchReset: generateActionResetBuySell,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
+
+
+interface Props extends ReduxProps, PurchaseTokensProps { }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PurchaseTokens);
+
+
