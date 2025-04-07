@@ -52,8 +52,9 @@ const Home: React.FC<Props> = (props: Props) => {
               id={card.id.toString()}
               dateCreated={card.dateCreated.toString()}
               imageUrl={"https://via.placeholder.com/100"}
-              fractionalized={true}
-              remainingKilowatts={1000} />
+              remainingKilowatts={card.availablekWts.valueOf()}
+              fraction_address={card.fractionAddress.toString()}
+              my_balance={card.myBalance.toString()} />
           ))}
         </div>
       </div>

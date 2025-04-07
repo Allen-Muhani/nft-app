@@ -1,14 +1,16 @@
 // components/InfoCard.tsx
 import React from "react";
 import { useNavigate } from "react-router";
+import { EMPTY_ADDRESS } from "~/features/web3/web3";
 
 interface InfoCardProps {
     name: string;
     id: string;
     dateCreated: string;
     imageUrl: string;
-    fractionalized: boolean;
+    fraction_address: string;
     remainingKilowatts: number;
+    my_balance: string
 }
 
 const InfoCard: React.FC<InfoCardProps> = ({
@@ -16,11 +18,13 @@ const InfoCard: React.FC<InfoCardProps> = ({
     id,
     dateCreated,
     imageUrl,
-    fractionalized,
-    remainingKilowatts
+    fraction_address,
+    remainingKilowatts,
+    my_balance
 }) => {
 
     let navigator = useNavigate();
+    let fractionalized: Boolean = !EMPTY_ADDRESS.match(fraction_address);
     const navigate = () => {
         navigator(`certificate-details/${id}`)
     }
@@ -34,11 +38,10 @@ const InfoCard: React.FC<InfoCardProps> = ({
             <div className="text-center space-y-1">
                 <h2 className="text-xl font-semibold text-gray-800">{name}</h2>
                 <p className="text-sm text-gray-500">ID: {id}</p>
-                <p className="text-sm text-gray-400">Created: {dateCreated}</p>
-                <p className="text-sm text-gray-500">
-                    Fractionalized: {fractionalized ? "Yes" : "No"}
-                </p>
+                <p className="text-sm text-gray-500">Created: {dateCreated}</p>
+                <p className="text-sm text-gray-500">Fractionalized: {String(fractionalized).toLowerCase()}</p>
                 <p className="text-sm text-gray-500">Remaining Kilowatts: {remainingKilowatts} kWh</p>
+                <p className="text-sm text-gray-500">My Kilowatts: {my_balance} kWh</p>
             </div>
             <button
                 onClick={navigate}
