@@ -8,8 +8,6 @@ import type { RootState } from "~/redux/store";
 import type { Route } from "../+types/root";
 
 
-
-
 const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
     // Card details
     const [cardInfor, setCarInfor] = useState<NFTCert>();
@@ -34,7 +32,7 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
     };
 
     const handleFractionalize = () => {
-        alert("Card fractionalized!");
+        props.dispatchFractionalize(Number(props.params.certificateId));
     };
 
     return (

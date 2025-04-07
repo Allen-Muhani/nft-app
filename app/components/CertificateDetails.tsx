@@ -1,5 +1,6 @@
 // CertificateDetails.tsx
 import React from "react";
+import { EMPTY_ADDRESS } from "~/features/web3/web3";
 
 type CertificateDetailsProps = {
     name: string;
@@ -20,7 +21,11 @@ const CertificateDetails: React.FC<CertificateDetailsProps> = ({
     availableKilowatts,
     imageUrl,
     onFractionalize,
+    my_balance
 }) => {
+
+    let fractionalized: Boolean = !EMPTY_ADDRESS.match(fraction_address);
+
     return (
         <div className="space-y-6">
 
@@ -36,20 +41,21 @@ const CertificateDetails: React.FC<CertificateDetailsProps> = ({
                         <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
                         <p className="text-gray-600">ID: {id.toString()}</p>
                         <p className="text-gray-600">Created: {dateCreated}</p>
-                        {/* <p className="text-gray-600">
+                        <p className="text-gray-600">
                             Fractionalized:{" "}
                             <span className={fractionalized ? "text-green-500" : "text-red-500"}>
                                 {fractionalized ? "Yes" : "No"}
                             </span>
-                        </p> */}
+                        </p>
                         <p className="text-gray-600">Available Kilowatts: {availableKilowatts} kWh</p>
-                        <p className="text-gray-600">My Kilowatts: {availableKilowatts} kWh</p>
+                        <p className="text-gray-600">My Kilowatts: {my_balance} kWh</p>
                     </div>
                 </div>
 
                 <button
                     onClick={onFractionalize}
-                    className="w-full py-2 mt-6 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                    className="w-full py-2 mt-6 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={!!fractionalized}
                 >
                     Fractionalize
                 </button>

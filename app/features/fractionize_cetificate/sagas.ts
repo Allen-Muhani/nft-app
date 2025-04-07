@@ -6,6 +6,7 @@ import {
   generateActionErrorFractionizing,
   generateActionSuccessFractionizing,
 } from "./actions.generators";
+import { generateActionStartFetchingNFT } from "../fetch_nfts/actions.generators";
 
 export function* fractionize_token(action: ActionStartFractionizing) {
   try {
@@ -14,17 +15,23 @@ export function* fractionize_token(action: ActionStartFractionizing) {
       action.certificateId
     );
 
-    console.log("====================>", tx, tx?.events);
-    // const tokenId = tx?.events?.Transfer.returnValues.tokenId;
-    // if (tokenId) {
-    //   yield put(generateActionSuccessFractionizing(""));
-    // } else {
-    //   yield put(
-    //     generateActionErrorFractionizing(
-    //       `Error fractionizing NFT CERT ${action.certificateId}`
-    //     )
-    //   );
-    // }
+    const erc20Address =
+      tx?.events?.TransCertificateFractionalized.returnValues.erc20Address;
+    if (erc20Address) {
+      yield put(
+        generateActionSuccessFractionizing(
+          erc20Address ? String(erc20Address) : ""
+        )
+      );
+
+      yield put(generateActionStartFetchingNFT());
+    } else {
+      yield put(
+        generateActionErrorFractionizing(
+          `Error fractionizing NFT CERT ${action.certificateId}`
+        )
+      );
+    }
   } catch (error) {
     yield put(
       generateActionErrorFractionizing(
