@@ -1,5 +1,6 @@
 import { FRACTION_ABI } from "./abis/fraction.abi";
 import { web3Js } from "./web3";
+import { USDC_TOKEN } from "./usdc.token";
 
 export function get_fractional_contract(address: String) {
   if (web3Js == null) {
@@ -9,19 +10,21 @@ export function get_fractional_contract(address: String) {
   }
 }
 
-export async function approve(token_address: String, amount: Number) {
-  const accs = (await web3Js?.eth.getAccounts()) ?? [];
-  const contract = get_fractional_contract(token_address);
-  const tx = contract?.methods
-    .approve(amount.valueOf() + 1000)
-    .send({ from: accs[0] });
-  return tx;
-}
-
 export async function buy(token_address: String, amount: Number) {
   const accs = (await web3Js?.eth.getAccounts()) ?? [];
   const contract = get_fractional_contract(token_address);
   const tx = contract?.methods.buy(amount).send({ from: accs[0] });
+  return tx;
+}
+
+export async function set_usdc(token_address: String) {
+  const accs = (await web3Js?.eth.getAccounts()) ?? [];
+  const contract = get_fractional_contract(token_address);
+  const tx = contract?.methods
+    .setUSDCAddress(USDC_TOKEN)
+    .send({ from: accs[0] });
+
+  await get_usdc_address(token_address);
   return tx;
 }
 
@@ -32,6 +35,11 @@ export async function sell(token_address: String, amount: Number) {
   return tx;
 }
 
+export async function get_usdc_address(token_address: String) {
+  const contract = get_fractional_contract(token_address);
+  const result = await contract?.methods.usdcAddress(token_address).call();
+  return String(result);
+}
 export async function get_token_balance(
   token_address: String,
   owner_address: String

@@ -7,6 +7,7 @@ import {
   generateActionSuccessFractionizing,
 } from "./actions.generators";
 import { generateActionStartFetchingNFT } from "../fetch_nfts/actions.generators";
+import { set_usdc } from "../web3/fractional.token.utils";
 
 export function* fractionize_token(action: ActionStartFractionizing) {
   try {
@@ -18,6 +19,7 @@ export function* fractionize_token(action: ActionStartFractionizing) {
     const erc20Address =
       tx?.events?.TransCertificateFractionalized.returnValues.erc20Address;
     if (erc20Address) {
+      const x: TransactionReceipt = yield call(set_usdc, erc20Address ? String(erc20Address) : "")
       yield put(
         generateActionSuccessFractionizing(
           erc20Address ? String(erc20Address) : ""
