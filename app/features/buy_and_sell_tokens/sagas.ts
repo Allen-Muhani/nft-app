@@ -5,6 +5,7 @@ import type { TransactionReceipt } from "web3";
 import {
   generateActionSuccesBuy,
   generateActionErrorBuySell,
+  generateActionSuccessSell,
 } from "./actions.generators";
 import { generateActionStartFetchingNFT } from "../fetch_nfts/actions.generators";
 
@@ -53,7 +54,7 @@ export function* sell_token(action: ActionStartSell) {
     );
 
     if (tx.status) {
-      yield put(generateActionSuccesBuy());
+      yield put(generateActionSuccessSell());
       yield put(generateActionStartFetchingNFT());
     } else {
       yield put(generateActionErrorBuySell("Error purchasing token!!!"));
