@@ -50,7 +50,6 @@ export async function get_token_info(certId: Number) {
   const code = await fetch_cert(certId);
   const fractional_address = await get_fractional_token_id(certId);
 
-  console.log("address", fractional_address);
   if (fractional_address == EMPTY_ADDRESS) {
     const x: NFTCert = {
       id: certId,
