@@ -1,5 +1,6 @@
 // components/NavBar.tsx
 import { Link } from "react-router-dom";
+import ConnectMetamask from "./connect.metamask";
 
 export default function NavBar() {
     return (
@@ -11,6 +12,7 @@ export default function NavBar() {
                 <Link to="/mint-certificate" className="text-white font-semibold hover:text-blue-400">
                     Mint Certificate
                 </Link>
+                <ConnectMetamask></ConnectMetamask>
             </div>
         </nav>
     );
