@@ -12,6 +12,9 @@ import "./app.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import NavBar from "./components/nav";
+import { useEffect } from "react";
+import { setWeb3Js } from "./features/web3/web3";
+import Web3 from "web3";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -45,6 +48,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+
+  useEffect(() => {
+    setWeb3Js(new Web3(window.ethereum))
+  }, []);
+
   return (
     <Provider store={store}>
       <NavBar />

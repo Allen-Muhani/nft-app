@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import type { RootState } from "~/redux/store";
+import { generateActionStartMinting } from '../features/buy_and_sell_tokens/actions.generators';
+import { connect, type ConnectedProps } from "react-redux";
+import { generateActionResetMinting } from "~/features/minting_certificate/actions.generators";
 
-const MintNFTPage: React.FC = () => {
+const MintNFTPage: React.FC<Props> = (props: Props) => {
     const [certificateName, setCertificateName] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle minting logic here
-        alert(`Minting NFT for certificate: ${certificateName}`);
-        setCertificateName(""); // Reset form
+        props.dispatchMint(certificateName);
     };
+
+    useEffect(() => {
+        if (props.status == "error") {
+            alert(props.error);
+        }
+
+        if (props.status == "finished_minitng") {
+            alert(`Certificate with id ${props.id} is already mitned. Go to home page to view listing`);
+            props.dispatchResetMinter();
+            setCertificateName("");
+        }
+
+    }, [props.status]);
 
     return (
         <div className="max-w-xl mx-auto py-12 px-4">
@@ -47,4 +62,23 @@ const MintNFTPage: React.FC = () => {
     );
 };
 
-export default MintNFTPage;
+const mapStateToProps = (state: RootState) => ({
+    status: state.minting.status,
+    id: state.minting.id,
+    error: state.fractionanlize.error,
+});
+
+const mapDispatchToProps = {
+    dispatchResetMinter: generateActionResetMinting,
+    dispatchMint: generateActionStartMinting,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
+
+interface Props extends ReduxProps { }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MintNFTPage);
+

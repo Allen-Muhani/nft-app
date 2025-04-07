@@ -1,10 +1,5 @@
-import {
-  Actions,
-  type ActionErrorMinting,
-  type ActionStartMinting,
-  type ActionSuccessMinting,
-  type ResetMinting,
-} from "./actions";
+import { Actions, type ActionErrorMinting, type ActionStartMinting, type ActionSuccessMinting, type ResetMinting } from "../minting_certificate/actions";
+
 
 export function generateActionStartMinting(
   certificateCode: String
