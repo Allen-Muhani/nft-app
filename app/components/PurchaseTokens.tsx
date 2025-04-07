@@ -19,6 +19,7 @@ const PurchaseTokens: React.FC<Props> = (props: Props) => {
     const handleTokenAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const v = e.target.value === "" ? "0" : e.target.value;
         const amount = parseFloat(v);
+      
         if (amount >= 0 && amount < 1000) {
             setTokenAmount(amount);
             setTokenAmountStr(v);
@@ -29,17 +30,18 @@ const PurchaseTokens: React.FC<Props> = (props: Props) => {
     const handleTransaction = (tokenAmount: number, usdcAmount: number) => {
         const token_watts = tokenAmount * 1000;
         const usdc_wei = usdcAmount * 10 ** 6;
-        if (buy) {
-            props.dispatchBuy(props.fractiona_address, usdc_wei, token_watts);
-        } else {
-            props.dispatchSell(props.fractiona_address, usdc_wei, token_watts);
+        if (token_watts > 0 && usdc_wei > 0) {
+            if (buy) {
+                props.dispatchBuy(props.fractiona_address, usdc_wei, token_watts);
+            } else {
+                props.dispatchSell(props.fractiona_address, usdc_wei, token_watts);
+            }
         }
+
     };
 
     return (
         <div className="space-y-6">
-
-
             <div className="bg-white p-6 rounded-lg shadow-lg">
                 <button
                     type="button"
