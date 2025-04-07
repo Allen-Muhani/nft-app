@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, type ConnectedProps } from "react-redux";
 import { generateActionStartBuy, generateActionStartSell } from "~/features/buy_and_sell_tokens/actions.generators";
 import type { RootState } from "~/redux/store";
@@ -37,8 +37,27 @@ const PurchaseTokens: React.FC<Props> = (props: Props) => {
                 props.dispatchSell(props.fractiona_address, usdc_wei, token_watts);
             }
         }
-
     };
+
+    useEffect(()=> {
+        if (props.status == "error") {
+            alert(props.error);
+            props.dispatchReset();
+            setTokenAmount(0);
+            setTokenAmountStr("");
+            setUsdcAmount(0);
+        }
+
+        if (props.status == "finished_buy") {
+            alert(`Successfully purchased ${tokenAmount} watts at ${usdcAmount} USDC`);
+            props.dispatchReset();
+        }
+
+        if (props.status == "finished_sell") {
+            alert(`Successfully sold ${tokenAmount} watts at ${usdcAmount} USDC`);
+            props.dispatchReset();
+        }
+    }, [props.error, props.status])
 
     return (
         <div className="space-y-6">
@@ -100,8 +119,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
     dispatchBuy: generateActionStartBuy,
     dispatchSell: generateActionStartSell,
-    dispatchReset: generateActionResetBuySell
-
+    dispatchReset: generateActionResetBuySell,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

@@ -14,6 +14,8 @@ const MintNFTPage: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         if (props.status == "error") {
             alert(props.error);
+            props.dispatchResetMinter();
+            setCertificateName("");
         }
 
         if (props.status == "finished_minitng") {

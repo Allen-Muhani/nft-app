@@ -16,6 +16,7 @@ const CertificateDetailsPage: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         if (props.status == "error") {
             alert(props.error);
+            props.dispatchResetFractionalizer();
         }
 
         if (props.status == "finished_fractionizing") {
