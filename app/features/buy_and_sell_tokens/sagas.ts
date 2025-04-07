@@ -1,6 +1,6 @@
 import { call, put, spawn, takeLatest } from "redux-saga/effects";
 import { Actions, type ActionStartBuy, type ActionStartSell } from "./actions";
-import { buy, sell } from "../web3/fractional.token.utils";
+import { approve, buy, sell } from "../web3/fractional.token.utils";
 import type { TransactionReceipt } from "web3";
 import {
   generateActionSuccesBuy,
@@ -10,16 +10,25 @@ import { generateActionStartFetchingNFT } from "../fetch_nfts/actions.generators
 
 export function* buy_token(action: ActionStartBuy) {
   try {
-    const tx: TransactionReceipt = yield call(
-      buy,
+    const approveTx: TransactionReceipt = yield call(
+      approve,
       action.fractionAddress,
-      action.amount
+      action.usdcAmount
     );
 
-    console.log("=========================>", tx.status);
-    if (tx.status) {
-      yield put(generateActionSuccesBuy());
-      yield put(generateActionStartFetchingNFT());
+    if (approveTx.status) {
+      const tx: TransactionReceipt = yield call(
+        buy,
+        action.fractionAddress,
+        action.amount
+      );
+
+      if (tx.status) {
+        yield put(generateActionSuccesBuy());
+        yield put(generateActionStartFetchingNFT());
+      } else {
+        yield put(generateActionErrorBuySell("Error purchasing token!!!"));
+      }
     } else {
       yield put(generateActionErrorBuySell("Error purchasing token!!!"));
     }
@@ -36,7 +45,6 @@ export function* watch_buy_token() {
 }
 
 export function* sell_token(action: ActionStartSell) {
-  console.log("sell ===> ", action);
   try {
     const tx: TransactionReceipt = yield call(
       sell,
@@ -44,7 +52,6 @@ export function* sell_token(action: ActionStartSell) {
       action.amount
     );
 
-    console.log("=========================>", tx.status);
     if (tx.status) {
       yield put(generateActionSuccesBuy());
       yield put(generateActionStartFetchingNFT());
