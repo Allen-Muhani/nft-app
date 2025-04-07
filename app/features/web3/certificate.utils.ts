@@ -3,6 +3,7 @@ import { CERTIFICATE_ABI } from "./abis/certificate.abi";
 import { get_token_balance, get_token_price } from "./fractional.token.utils";
 import { EMPTY_ADDRESS, web3Js } from "./web3";
 
+// 
 export const CERT_ADDRESS = "0xb9854498394529871D18ECe1F1b5cd5dcAF9a8Ab";
 
 function certificate_nft_contract() {

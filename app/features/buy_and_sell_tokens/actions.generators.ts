@@ -15,9 +15,9 @@ export function generateActionStartBuy(
 ): ActionStartBuy {
   return {
     type: Actions.BUY,
-    usdcAmount,
+    usdcAmount: usdcAmount,
     fractionAddress,
-    amount,
+    amount: amount,
   };
 }
 

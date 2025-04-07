@@ -1,6 +1,6 @@
 import { call, put, spawn, takeLatest } from "redux-saga/effects";
 import { Actions, type ActionStartBuy, type ActionStartSell } from "./actions";
-import { approve, buy, sell } from "../web3/fractional.token.utils";
+import { buy, sell } from "../web3/fractional.token.utils";
 import type { TransactionReceipt } from "web3";
 import {
   generateActionSuccesBuy,
@@ -8,23 +8,23 @@ import {
   generateActionSuccessSell,
 } from "./actions.generators";
 import { generateActionStartFetchingNFT } from "../fetch_nfts/actions.generators";
+import { usdc_approve } from "../web3/usdc.token";
 
 export function* buy_token(action: ActionStartBuy) {
   try {
     const approveTx: TransactionReceipt = yield call(
-      approve,
+      usdc_approve,
       action.fractionAddress,
       action.usdcAmount
     );
-
-    if (approveTx.status) {
+    if (approveTx.status == 1) {
       const tx: TransactionReceipt = yield call(
         buy,
         action.fractionAddress,
         action.amount
       );
 
-      if (tx.status) {
+      if (tx.status == 1) {
         yield put(generateActionSuccesBuy());
         yield put(generateActionStartFetchingNFT());
       } else {
@@ -53,14 +53,14 @@ export function* sell_token(action: ActionStartSell) {
       action.amount
     );
 
-    if (tx.status) {
+    if (tx.status == 1) {
       yield put(generateActionSuccessSell());
       yield put(generateActionStartFetchingNFT());
     } else {
-      yield put(generateActionErrorBuySell("Error purchasing token!!!"));
+      yield put(generateActionErrorBuySell("Error selling token!!!"));
     }
   } catch (error) {
-    yield put(generateActionErrorBuySell("Error purchasing token!!!"));
+    yield put(generateActionErrorBuySell("Error selling token!!!"));
   }
 }
 

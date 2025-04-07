@@ -32,9 +32,9 @@ const PurchaseTokens: React.FC<Props> = (props: Props) => {
         const usdc_wei = usdcAmount * 10 ** 6;
         if (token_watts > 0 && usdc_wei > 0) {
             if (buy) {
-                props.dispatchBuy(props.fractiona_address, usdc_wei, token_watts);
+                props.dispatchBuy(props.fractiona_address, token_watts, usdc_wei);
             } else {
-                props.dispatchSell(props.fractiona_address, usdc_wei, token_watts);
+                props.dispatchSell(props.fractiona_address, token_watts, usdc_wei);
             }
         }
     };
