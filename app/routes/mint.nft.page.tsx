@@ -65,7 +65,7 @@ const MintNFTPage: React.FC<Props> = (props: Props) => {
 const mapStateToProps = (state: RootState) => ({
     status: state.minting.status,
     id: state.minting.id,
-    error: state.fractionanlize.error,
+    error: state.minting.error,
 });
 
 const mapDispatchToProps = {

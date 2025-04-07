@@ -20,6 +20,13 @@ export async function mint_cert(code: String) {
   return tx;
 }
 
+export async function fractionalize_cert(id: Number) {
+  const accs = (await web3Js?.eth.getAccounts()) ?? [];
+  const contract = certificate_nft_contract();
+  const tx = contract?.methods.fractionalize(id).send({ from: accs[0] });
+  return tx;
+}
+
 export async function fetch_cert(id: Number) {
   const contract = certificate_nft_contract();
   const result = await contract?.methods.tokenURI(id).call();

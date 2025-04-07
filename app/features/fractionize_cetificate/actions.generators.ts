@@ -7,12 +7,10 @@ import {
 } from "./actions";
 
 export function generateActionStartFractionizing(
-  nftAddress: String,
   certificateId: Number
 ): ActionStartFractionizing {
   return {
     type: Actions.START,
-    nftAddress,
     certificateId,
   };
 }
@@ -26,7 +24,7 @@ export function generateActionSuccessFractionizing(
   };
 }
 
-export function generateActionErrorMinting(
+export function generateActionErrorFractionizing(
   error: String
 ): ActionErrorFractionizing {
   return {
@@ -35,7 +33,7 @@ export function generateActionErrorMinting(
   };
 }
 
-export function generateActionResetMinting(): ActionResetFractionizing {
+export function generateActionResetFractionalizing(): ActionResetFractionizing {
   return {
     type: Actions.RESET,
   };

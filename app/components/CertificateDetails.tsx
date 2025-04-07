@@ -3,10 +3,11 @@ import React from "react";
 
 type CertificateDetailsProps = {
     name: string;
-    id: string;
+    id: Number;
     dateCreated: string;
-    fractionalized: boolean;
+    fraction_address: string;
     availableKilowatts: number;
+    my_balance: number;
     imageUrl: string;
     onFractionalize: () => void;
 };
@@ -15,7 +16,7 @@ const CertificateDetails: React.FC<CertificateDetailsProps> = ({
     name,
     id,
     dateCreated,
-    fractionalized,
+    fraction_address,
     availableKilowatts,
     imageUrl,
     onFractionalize,
@@ -33,14 +34,14 @@ const CertificateDetails: React.FC<CertificateDetailsProps> = ({
                     />
                     <div>
                         <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
-                        <p className="text-gray-600">ID: {id}</p>
+                        <p className="text-gray-600">ID: {id.toString()}</p>
                         <p className="text-gray-600">Created: {dateCreated}</p>
-                        <p className="text-gray-600">
+                        {/* <p className="text-gray-600">
                             Fractionalized:{" "}
                             <span className={fractionalized ? "text-green-500" : "text-red-500"}>
                                 {fractionalized ? "Yes" : "No"}
                             </span>
-                        </p>
+                        </p> */}
                         <p className="text-gray-600">Available Kilowatts: {availableKilowatts} kWh</p>
                         <p className="text-gray-600">My Kilowatts: {availableKilowatts} kWh</p>
                     </div>
