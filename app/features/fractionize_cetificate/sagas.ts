@@ -1,8 +1,44 @@
-import { spawn, takeLatest } from "redux-saga/effects";
+import { call, put, spawn, takeLatest } from "redux-saga/effects";
 import { Actions, type ActionStartFractionizing } from "./actions";
+import type { TransactionReceipt } from "web3";
+import { fractionalize_cert } from "../web3/certificate.utils";
+import {
+  generateActionErrorFractionizing,
+  generateActionSuccessFractionizing,
+} from "./actions.generators";
+import { generateActionStartFetchingNFT } from "../fetch_nfts/actions.generators";
 
 export function* fractionize_token(action: ActionStartFractionizing) {
-  console.log("===============================>", action);
+  try {
+    const tx: TransactionReceipt = yield call(
+      fractionalize_cert,
+      action.certificateId
+    );
+
+    const erc20Address =
+      tx?.events?.TransCertificateFractionalized.returnValues.erc20Address;
+    if (erc20Address) {
+      yield put(
+        generateActionSuccessFractionizing(
+          erc20Address ? String(erc20Address) : ""
+        )
+      );
+
+      yield put(generateActionStartFetchingNFT());
+    } else {
+      yield put(
+        generateActionErrorFractionizing(
+          `Error fractionizing NFT CERT ${action.certificateId}`
+        )
+      );
+    }
+  } catch (error) {
+    yield put(
+      generateActionErrorFractionizing(
+        `Error fractionizing NFT CERT ${action.certificateId}`
+      )
+    );
+  }
 }
 
 /**

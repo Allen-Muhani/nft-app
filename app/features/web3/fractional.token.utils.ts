@@ -1,11 +1,11 @@
-import { CERTIFICATE_ABI } from "./abis/certificate.abi";
+import { FRACTION_ABI } from "./abis/fraction.abi";
 import { web3Js } from "./web3";
 
 export function get_fractional_contract(address: String) {
   if (web3Js == null) {
     return null;
   } else {
-    return new web3Js.eth.Contract(CERTIFICATE_ABI, address.toString());
+    return new web3Js.eth.Contract(FRACTION_ABI, address.toString());
   }
 }
 
@@ -29,6 +29,7 @@ export async function get_token_balance(
 ) {
   const contract = get_fractional_contract(token_address);
   const result = await contract?.methods.balanceOf(owner_address).call();
+  console.log("result ===>", result);
   return Number(result);
 }
 

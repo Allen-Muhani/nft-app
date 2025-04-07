@@ -5,11 +5,6 @@ import type { NFTCert } from "./types";
 import { generateActionSetNFT } from "./actions.generators";
 
 export function* fetch_nft_cert_colletion(action: ActionStartFetching) {
-  // try {
-
-  // } catch (error) {
-
-  // }
   const nextCertID: Number = yield call(get_next_id);
   for (let index = nextCertID.valueOf() - 1; index >= 0; index--) {
     const cert: NFTCert = yield call(get_token_info, index);

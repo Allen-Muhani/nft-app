@@ -10,7 +10,6 @@ export enum Actions {
 
 export interface ActionStartFractionizing {
   type: Actions.START;
-  nftAddress: String;
   certificateId: Number;
 }
 

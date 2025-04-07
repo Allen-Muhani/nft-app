@@ -20,6 +20,13 @@ export async function mint_cert(code: String) {
   return tx;
 }
 
+export async function fractionalize_cert(id: Number) {
+  const accs = (await web3Js?.eth.getAccounts()) ?? [];
+  const contract = certificate_nft_contract();
+  const tx = contract?.methods.fractionalize(id).send({ from: accs[0] });
+  return tx;
+}
+
 export async function fetch_cert(id: Number) {
   const contract = certificate_nft_contract();
   const result = await contract?.methods.tokenURI(id).call();
@@ -43,6 +50,7 @@ export async function get_token_info(certId: Number) {
   const code = await fetch_cert(certId);
   const fractional_address = await get_fractional_token_id(certId);
 
+  console.log("address", fractional_address);
   if (fractional_address == EMPTY_ADDRESS) {
     const x: NFTCert = {
       id: certId,
@@ -63,7 +71,7 @@ export async function get_token_info(certId: Number) {
 
   const [my_balance, available, price] = await Promise.all([
     get_token_balance(fractional_address, accs[0]),
-    get_token_balance(fractional_address, CERT_ADDRESS),
+    get_token_balance(fractional_address, fractional_address),
     get_token_price(fractional_address),
   ]);
 
