@@ -18,13 +18,14 @@ export async function buy(token_address: String, amount: Number) {
 }
 
 export async function set_usdc(token_address: String) {
+  console.log("===============================>set_usdc", )
   const accs = (await web3Js?.eth.getAccounts()) ?? [];
   const contract = get_fractional_contract(token_address);
   const tx = contract?.methods
     .setUSDCAddress(USDC_TOKEN)
     .send({ from: accs[0] });
 
-  await get_usdc_address(token_address);
+  console.log("==========>", await get_usdc_address(token_address));
   return tx;
 }
 

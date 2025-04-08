@@ -28,12 +28,15 @@ export function* buy_token(action: ActionStartBuy) {
         yield put(generateActionSuccesBuy());
         yield put(generateActionStartFetchingNFT());
       } else {
+        console.log("====>", tx.status, tx, action);
         yield put(generateActionErrorBuySell("Error purchasing token!!!"));
       }
     } else {
+      console.log("====>", approveTx.status, approveTx, action);
       yield put(generateActionErrorBuySell("Error purchasing token!!!"));
     }
   } catch (error) {
+    console.log("====>", error, action);
     yield put(generateActionErrorBuySell("Error purchasing token!!!"));
   }
 }

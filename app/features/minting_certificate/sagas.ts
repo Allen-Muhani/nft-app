@@ -2,7 +2,7 @@ import { call, put, spawn, takeLatest } from "redux-saga/effects";
 import { Actions, type ActionStartMinting } from "./actions";
 import { mint_cert } from "../web3/certificate.utils";
 import type { TransactionReceipt } from "web3";
-import { generateActionErrorFetchingNFT } from "../fetch_nfts/actions.generators";
+import { generateActionErrorFetchingNFT, generateActionStartFetchingNFT } from "../fetch_nfts/actions.generators";
 import { generateActionSuccesMinting } from "./actions.generators";
 
 export function* mint_token(action: ActionStartMinting) {
@@ -13,6 +13,7 @@ export function* mint_token(action: ActionStartMinting) {
     );
     const tokenId = tx?.events?.Transfer.returnValues.tokenId;
     if (tokenId) {
+      yield put(generateActionStartFetchingNFT)
       yield put(generateActionSuccesMinting(Number(tokenId)));
     } else {
       yield put(

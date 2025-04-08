@@ -17,17 +17,29 @@ export function* fractionize_token(action: ActionStartFractionizing) {
     );
 
     const erc20Address =
-      tx?.events?.TransCertificateFractionalized.returnValues.erc20Address;
-    if (erc20Address) {
-      const x: TransactionReceipt = yield call(set_usdc, erc20Address ? String(erc20Address) : "")
-      yield put(
-        generateActionSuccessFractionizing(
-          erc20Address ? String(erc20Address) : ""
-        )
-      );
+      tx?.events?.CertificateFractionalized.returnValues.erc20Address;
 
-      yield put(generateActionStartFetchingNFT());
+    if (erc20Address) {
+      const x: TransactionReceipt = yield call(
+        set_usdc,
+        erc20Address ? String(erc20Address) : ""
+      );
+      if (x.status == 1) {
+        yield put(generateActionStartFetchingNFT());
+        yield put(
+          generateActionSuccessFractionizing(
+            erc20Address ? String(erc20Address) : ""
+          )
+        );
+      } else {
+        yield put(
+          generateActionErrorFractionizing(
+            `Error setting USDc Token address for CERT ${action.certificateId}`
+          )
+        );
+      }
     } else {
+      console.log("error", tx.status, tx, action);
       yield put(
         generateActionErrorFractionizing(
           `Error fractionizing NFT CERT ${action.certificateId}`
@@ -35,6 +47,7 @@ export function* fractionize_token(action: ActionStartFractionizing) {
       );
     }
   } catch (error) {
+    console.log("error", error);
     yield put(
       generateActionErrorFractionizing(
         `Error fractionizing NFT CERT ${action.certificateId}`
